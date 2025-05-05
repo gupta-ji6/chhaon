@@ -1,21 +1,25 @@
 "use client"
 
-import { X, Minus, Plus, ShoppingBag, ArrowLeft } from "lucide-react"
+import { X, Minus, Plus, ShoppingBag, ArrowLeft, Layers, List } from "lucide-react"
 import { useCart } from "@/lib/cart-context"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { CustomerInfoForm } from "@/components/cart/customer-info-form"
 import { OrderSummary } from "@/components/cart/order-summary"
 import NumberFlow, { NumberFlowGroup } from "@number-flow/react"
 import { AnimatedButton, AnimatedIconButton } from "@/components/ui/animated-button"
 import { motion } from "framer-motion"
+import { Toggle } from "@/components/ui/toggle"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import type { CartItem } from "@/lib/cart-context"
 
 export function CartSidebar() {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, clearCart } = useCart()
   const [showCheckout, setShowCheckout] = useState(false)
   const [orderPlaced, setOrderPlaced] = useState(false)
+  const [viewMode, setViewMode] = useState<"list" | "categorized">("list")
 
   const handleCheckout = () => {
     if (items.length > 0) {
@@ -41,6 +45,121 @@ export function CartSidebar() {
       }, 500)
     }
   }
+
+  // Group items by category
+  const categorizedItems = useMemo(() => {
+    const groupedItems: Record<string, CartItem[]> = {}
+
+    items.forEach(item => {
+      // Simple category detection based on item name or description
+      // In a real app, you'd have proper category data from your backend
+      let category = "Other"
+
+      if (/shake|coffee|tea|lemonade|soda|punch|juice/i.test(item.name)) {
+        category = "Drinks"
+      } else if (/fries|toast|sandwich|burger|pizza/i.test(item.name)) {
+        category = "Fast Food"
+      } else if (/paneer|dal|roti|naan|rice|biryani/i.test(item.name)) {
+        category = "Indian"
+      } else if (/noodle|manchurian|momos|spring roll|chilli/i.test(item.name)) {
+        category = "Chinese"
+      } else if (/pasta|pizza|lasagna/i.test(item.name)) {
+        category = "Italian"
+      } else if (/cake|pastry|ice cream|brownie/i.test(item.name)) {
+        category = "Desserts"
+      }
+
+      if (!groupedItems[category]) {
+        groupedItems[category] = []
+      }
+
+      groupedItems[category].push(item)
+    })
+
+    // Sort categories alphabetically
+    return Object.keys(groupedItems)
+      .sort()
+      .map(category => ({
+        category,
+        items: groupedItems[category]
+      }))
+  }, [items])
+
+  const renderCartItem = (item: CartItem) => (
+    <motion.div
+      key={item.name}
+      className="flex justify-between items-start py-3 border-b border-stone-100 dark:border-stone-700 last:border-0"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", stiffness: 500, damping: 30 }}
+    >
+      <div className="flex-1 pr-4">
+        <h4 className="font-display text-base font-medium">{item.name}</h4>
+        <p className="text-sm text-muted-foreground line-clamp-1">{item.description}</p>
+        <NumberFlowGroup>
+          <div className="flex items-baseline gap-1 mt-1">
+            <span className="text-sm font-medium">₹</span>
+            <span className="text-sm font-medium font-variant-numeric tabular-nums">
+              <NumberFlow value={item.price} />
+            </span>
+            <span className="text-xs text-muted-foreground font-variant-numeric tabular-nums ml-1">
+              × <NumberFlow value={item.quantity} />
+            </span>
+          </div>
+        </NumberFlowGroup>
+      </div>
+
+      <div className="flex flex-col items-end space-y-2">
+        <div style={{ display: "inline-block" }}>
+          <AnimatedIconButton
+            variant="ghost"
+            size="icon"
+            className="h-6 w-6 text-muted-foreground hover:text-foreground"
+            onClick={() => removeItem(item.name)}
+            scaleAmount={0.7}
+            springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
+          >
+            <X className="h-4 w-4" />
+            <span className="sr-only">Remove</span>
+          </AnimatedIconButton>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <div style={{ display: "inline-block" }}>
+            <AnimatedIconButton
+              variant="outline"
+              size="icon"
+              className="h-7 w-7 rounded-full"
+              onClick={() => updateQuantity(item.name, item.quantity - 1)}
+              scaleAmount={0.7}
+              springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
+            >
+              <Minus className="h-3 w-3" />
+              <span className="sr-only">Decrease quantity</span>
+            </AnimatedIconButton>
+          </div>
+
+          <span className="w-8 text-center text-sm font-medium font-variant-numeric tabular-nums">
+            <NumberFlow value={item.quantity} />
+          </span>
+
+          <div style={{ display: "inline-block" }}>
+            <AnimatedIconButton
+              variant="outline"
+              size="icon"
+              className="h-7 w-7 rounded-full"
+              onClick={() => updateQuantity(item.name, item.quantity + 1)}
+              scaleAmount={0.7}
+              springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
+            >
+              <Plus className="h-3 w-3" />
+              <span className="sr-only">Increase quantity</span>
+            </AnimatedIconButton>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
 
   return (
     <Sheet open={isCartOpen} onOpenChange={handleClose}>
@@ -86,88 +205,62 @@ export function CartSidebar() {
                 </motion.div>
               </div>
             ) : (
-              <motion.div
-                className="space-y-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.2 }}
-              >
-                {items.map((item) => (
+              <>
+                <div className="flex items-center justify-end mb-3 space-x-2">
+                  <span className="text-sm text-muted-foreground">View:</span>
+                  <div className="flex border rounded-lg overflow-hidden">
+                    <Toggle
+                      pressed={viewMode === "list"}
+                      onClick={() => setViewMode("list")}
+                      className="rounded-none border-0 px-2 data-[state=on]:bg-muted"
+                      aria-label="List view"
+                    >
+                      <List className="h-4 w-4 mr-1" />
+                      <span className="text-xs">List</span>
+                    </Toggle>
+                    <Toggle
+                      pressed={viewMode === "categorized"}
+                      onClick={() => setViewMode("categorized")}
+                      className="rounded-none border-0 px-2 data-[state=on]:bg-muted"
+                      aria-label="Category view"
+                    >
+                      <Layers className="h-4 w-4 mr-1" />
+                      <span className="text-xs">Categories</span>
+                    </Toggle>
+                  </div>
+                </div>
+
+                {viewMode === "list" ? (
                   <motion.div
-                    key={item.name}
-                    className="flex justify-between items-start py-3 border-b border-stone-100 dark:border-stone-700 last:border-0"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ type: "spring", stiffness: 500, damping: 30 }}
+                    className="space-y-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2 }}
                   >
-                    <div className="flex-1 pr-4">
-                      <h4 className="font-display text-base font-medium">{item.name}</h4>
-                      <p className="text-sm text-muted-foreground line-clamp-1">{item.description}</p>
-                      <NumberFlowGroup>
-                        <div className="flex items-baseline gap-1 mt-1">
-                          <span className="text-sm font-medium">₹</span>
-                          <span className="text-sm font-medium font-variant-numeric tabular-nums">
-                            <NumberFlow value={item.price} />
-                          </span>
-                          <span className="text-xs text-muted-foreground font-variant-numeric tabular-nums ml-1">
-                            × <NumberFlow value={item.quantity} />
-                          </span>
-                        </div>
-                      </NumberFlowGroup>
-                    </div>
-
-                    <div className="flex flex-col items-end space-y-2">
-                      <div style={{ display: "inline-block" }}>
-                        <AnimatedIconButton
-                          variant="ghost"
-                          size="icon"
-                          className="h-6 w-6 text-muted-foreground hover:text-foreground"
-                          onClick={() => removeItem(item.name)}
-                          scaleAmount={0.7}
-                          springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
-                        >
-                          <X className="h-4 w-4" />
-                          <span className="sr-only">Remove</span>
-                        </AnimatedIconButton>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        <div style={{ display: "inline-block" }}>
-                          <AnimatedIconButton
-                            variant="outline"
-                            size="icon"
-                            className="h-7 w-7 rounded-full"
-                            onClick={() => updateQuantity(item.name, item.quantity - 1)}
-                            scaleAmount={0.7}
-                            springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
-                          >
-                            <Minus className="h-3 w-3" />
-                            <span className="sr-only">Decrease quantity</span>
-                          </AnimatedIconButton>
-                        </div>
-
-                        <span className="w-8 text-center text-sm font-medium font-variant-numeric tabular-nums">
-                          <NumberFlow value={item.quantity} />
-                        </span>
-
-                        <div style={{ display: "inline-block" }}>
-                          <AnimatedIconButton
-                            variant="outline"
-                            size="icon"
-                            className="h-7 w-7 rounded-full"
-                            onClick={() => updateQuantity(item.name, item.quantity + 1)}
-                            scaleAmount={0.7}
-                            springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
-                          >
-                            <Plus className="h-3 w-3" />
-                            <span className="sr-only">Increase quantity</span>
-                          </AnimatedIconButton>
-                        </div>
-                      </div>
-                    </div>
+                    {items.map(renderCartItem)}
                   </motion.div>
-                ))}
-              </motion.div>
+                ) : (
+                  <Accordion type="multiple" defaultValue={categorizedItems.map(c => c.category)} className="w-full">
+                    {categorizedItems.map(category => (
+                      <AccordionItem key={category.category} value={category.category} className="border-b">
+                        <AccordionTrigger className="py-3 hover:no-underline">
+                          <div className="flex items-baseline justify-between w-full pr-2">
+                            <span>{category.category}</span>
+                            <span className="text-xs text-muted-foreground font-variant-numeric tabular-nums">
+                              {category.items.reduce((sum, item) => sum + item.quantity, 0)} item(s)
+                            </span>
+                          </div>
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div className="space-y-3 pb-1">
+                            {category.items.map(renderCartItem)}
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    ))}
+                  </Accordion>
+                )}
+              </>
             )}
 
             <Separator className="my-6" />
