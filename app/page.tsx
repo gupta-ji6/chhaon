@@ -1,15 +1,14 @@
 'use client'
 
 import Image from "next/image"
-import { Tabs, TabsContent } from "@/components/ui/tabs"
-import { TabsList, TabsTrigger } from "@/components/animated-tabs"
+import { useState } from "react"
+import { menuData, MenuCategory } from "@/lib/menu-data"
 import { MenuSection } from "@/components/menu-section"
-import { menuData } from "@/lib/menu-data"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ModeToggle } from "@/components/mode-toggle"
-import { CartButton } from "@/components/cart/cart-button"
 import { CartSidebar } from "@/components/cart/cart-sidebar"
+import { FloatingCartButton } from "@/components/cart/floating-cart-button"
 import { motion, AnimatePresence, Variants } from "framer-motion"
-import { MenuItem, MenuCategory } from "@/lib/menu-data"
 
 export default function Home() {
   // Animation variants for tabs content
@@ -36,7 +35,7 @@ export default function Home() {
 
   // Find categories from the new data structure
   const findCategory = (name: string): MenuCategory => {
-    const category = menuData.categories.find(cat =>
+    const category = menuData.categories.find((cat: MenuCategory) =>
       cat.name.toLowerCase() === name.toLowerCase()
     );
 
@@ -67,9 +66,8 @@ export default function Home() {
           <p className="font-body text-xl md:text-2xl italic">Rooftop Cafe & Restaurant</p>
         </div>
 
-        {/* Mode Toggle and Cart Button - Positioned in the top right corner */}
-        <div className="absolute top-4 right-4 z-10 flex gap-2">
-          <CartButton />
+        {/* Mode Toggle - Positioned in the top right corner */}
+        <div className="absolute top-4 right-4 z-10">
           <ModeToggle />
         </div>
 
@@ -226,6 +224,9 @@ export default function Home() {
           </AnimatePresence>
         </Tabs>
       </section>
+
+      {/* Floating Cart Button */}
+      <FloatingCartButton />
 
       {/* Footer */}
       <footer className="bg-stone-100 dark:bg-stone-800 py-8 px-4 transition-colors duration-300">
