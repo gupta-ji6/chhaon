@@ -16,7 +16,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import type { CartItem } from "@/lib/cart-context"
 
 export function CartSidebar() {
-  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, clearCart } = useCart()
+  const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, totalSavings, clearCart } = useCart()
   const [showCheckout, setShowCheckout] = useState(false)
   const [orderPlaced, setOrderPlaced] = useState(false)
   const [viewMode, setViewMode] = useState<"list" | "categorized">("list")
@@ -98,10 +98,27 @@ export function CartSidebar() {
         <p className="text-sm text-muted-foreground line-clamp-1">{item.description}</p>
         <NumberFlowGroup>
           <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-sm font-medium">₹</span>
-            <span className="text-sm font-medium font-variant-numeric tabular-nums">
-              <NumberFlow value={item.price} />
-            </span>
+            {item.originalPrice ? (
+              <>
+                <span className="text-xs text-muted-foreground line-through mr-1">
+                  ₹<NumberFlow value={item.originalPrice} />
+                </span>
+                <span className="text-sm font-semibold">₹</span>
+                <span className="text-sm font-semibold font-variant-numeric tabular-nums">
+                  <NumberFlow value={item.price} />
+                </span>
+                <span className="text-xs text-green-600 ml-1 font-medium">
+                  ({Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}% off)
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-sm font-semibold">₹</span>
+                <span className="text-sm font-semibold font-variant-numeric tabular-nums">
+                  <NumberFlow value={item.price} />
+                </span>
+              </>
+            )}
             <span className="text-xs text-muted-foreground font-variant-numeric tabular-nums ml-1">
               × <NumberFlow value={item.quantity} />
             </span>
@@ -114,22 +131,21 @@ export function CartSidebar() {
           <AnimatedIconButton
             variant="ghost"
             size="icon"
-            className="h-6 w-6 text-muted-foreground hover:text-foreground"
+            className="h-6 w-6"
             onClick={() => removeItem(item.name)}
             scaleAmount={0.7}
             springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
           >
-            <X className="h-4 w-4" />
+            <X className="h-3 w-3" />
             <span className="sr-only">Remove</span>
           </AnimatedIconButton>
         </div>
-
-        <div className="flex items-center gap-2">
+        <div className="flex items-center">
           <div style={{ display: "inline-block" }}>
             <AnimatedIconButton
-              variant="outline"
+              variant="ghost"
               size="icon"
-              className="h-7 w-7 rounded-full"
+              className="h-6 w-6"
               onClick={() => updateQuantity(item.name, item.quantity - 1)}
               scaleAmount={0.7}
               springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
@@ -138,16 +154,12 @@ export function CartSidebar() {
               <span className="sr-only">Decrease quantity</span>
             </AnimatedIconButton>
           </div>
-
-          <span className="w-8 text-center text-sm font-medium font-variant-numeric tabular-nums">
-            <NumberFlow value={item.quantity} />
-          </span>
-
+          <span className="mx-1 w-6 text-center text-sm font-variant-numeric tabular-nums">{item.quantity}</span>
           <div style={{ display: "inline-block" }}>
             <AnimatedIconButton
-              variant="outline"
+              variant="ghost"
               size="icon"
-              className="h-7 w-7 rounded-full"
+              className="h-6 w-6"
               onClick={() => updateQuantity(item.name, item.quantity + 1)}
               scaleAmount={0.7}
               springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
@@ -187,7 +199,7 @@ export function CartSidebar() {
         </SheetHeader>
 
         {orderPlaced ? (
-          <OrderSummary items={items} totalPrice={totalPrice} />
+          <OrderSummary items={items} totalPrice={totalPrice} totalSavings={totalSavings} />
         ) : showCheckout ? (
           <CustomerInfoForm onSubmit={handlePlaceOrder} onBack={handleBackToOrder} />
         ) : (
@@ -267,12 +279,20 @@ export function CartSidebar() {
 
             <div className="space-y-4">
               <div className="flex justify-between font-variant-numeric tabular-nums">
-                <span>Subtotal</span>
-                <span>₹<NumberFlow value={totalPrice} format={{ maximumFractionDigits: 2 }} /></span>
+                <span className="text-base">Subtotal</span>
+                <span className="text-base font-semibold">₹<NumberFlow value={totalPrice + totalSavings} format={{ maximumFractionDigits: 2 }} /></span>
               </div>
-              <div className="flex justify-between font-medium font-variant-numeric tabular-nums">
-                <span>Total</span>
-                <span>₹<NumberFlow value={totalPrice} format={{ maximumFractionDigits: 2 }} /></span>
+
+              {totalSavings > 0 && (
+                <div className="flex justify-between text-green-600 font-medium font-variant-numeric tabular-nums">
+                  <span className="text-base">Total Savings ({Math.round((totalSavings / (totalPrice + totalSavings)) * 100)}% off)</span>
+                  <span className="text-base font-semibold">-₹<NumberFlow value={totalSavings} format={{ maximumFractionDigits: 2 }} /></span>
+                </div>
+              )}
+
+              <div className="flex justify-between font-medium font-variant-numeric tabular-nums border-t pt-4">
+                <span className="text-lg">Total</span>
+                <span className="text-lg font-bold">₹<NumberFlow value={totalPrice} format={{ maximumFractionDigits: 2 }} /></span>
               </div>
 
               <div style={{ display: "block" }}>

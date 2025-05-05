@@ -1,11 +1,12 @@
 "use client"
 
-import { ShoppingBag } from "lucide-react"
+import { ShoppingBag, Tag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/lib/cart-context"
 
 export function CartButton() {
-  const { totalItems, setIsCartOpen } = useCart()
+  const { totalItems, setIsCartOpen, items, totalSavings } = useCart()
+  const hasDiscountedItems = items.some(item => item.originalPrice);
 
   return (
     <Button
@@ -18,6 +19,11 @@ export function CartButton() {
       {totalItems > 0 && (
         <span className="absolute -top-2 -right-2 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
           {totalItems}
+        </span>
+      )}
+      {hasDiscountedItems && totalSavings > 0 && (
+        <span className="absolute -bottom-2 -right-2 bg-green-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+          <Tag className="h-3 w-3" />
         </span>
       )}
       <span className="sr-only">Open cart</span>

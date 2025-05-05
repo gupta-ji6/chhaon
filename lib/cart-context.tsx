@@ -18,6 +18,7 @@ interface CartContextType {
   setIsCartOpen: (isOpen: boolean) => void
   totalItems: number
   totalPrice: number
+  totalSavings: number
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -27,6 +28,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isCartOpen, setIsCartOpen] = useState(false)
   const [totalItems, setTotalItems] = useState(0)
   const [totalPrice, setTotalPrice] = useState(0)
+  const [totalSavings, setTotalSavings] = useState(0)
 
   // Generate a unique ID for each item based on name and any modifiers
   const getItemId = (item: MenuItem) => {
@@ -74,9 +76,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const itemCount = items.reduce((total, item) => total + item.quantity, 0)
     const price = items.reduce((total, item) => total + item.price * item.quantity, 0)
+    const savings = items.reduce((total, item) => {
+      if (item.originalPrice) {
+        return total + (item.originalPrice - item.price) * item.quantity
+      }
+      return total
+    }, 0)
 
     setTotalItems(itemCount)
     setTotalPrice(price)
+    setTotalSavings(savings)
   }, [items])
 
   return (
@@ -91,6 +100,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setIsCartOpen,
         totalItems,
         totalPrice,
+        totalSavings,
       }}
     >
       {children}
