@@ -9,6 +9,7 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { CartButton } from "@/components/cart/cart-button"
 import { CartSidebar } from "@/components/cart/cart-sidebar"
 import { motion, AnimatePresence, Variants } from "framer-motion"
+import { MenuItem, MenuCategory } from "@/lib/menu-data"
 
 export default function Home() {
   // Animation variants for tabs content
@@ -31,6 +32,23 @@ export default function Home() {
         ease: "easeOut"
       }
     }
+  }
+
+  // Find categories from the new data structure
+  const findCategory = (name: string): MenuCategory => {
+    const category = menuData.categories.find(cat =>
+      cat.name.toLowerCase() === name.toLowerCase()
+    );
+
+    // Return an empty category if not found to prevent TypeScript errors
+    if (!category) {
+      return {
+        name: name,
+        items: []
+      };
+    }
+
+    return category;
   }
 
   return (
@@ -125,7 +143,7 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Drinks" items={menuData.drinks} />
+                <MenuSection title="Drinks" category={findCategory('Drinks')} />
               </motion.div>
             </TabsContent>
 
@@ -136,7 +154,7 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Breakfast" items={menuData.breakfast} />
+                <MenuSection title="Breakfast" category={findCategory('Breakfast')} />
               </motion.div>
             </TabsContent>
 
@@ -147,7 +165,7 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Munchies" items={menuData.munchies} />
+                <MenuSection title="Munchies" category={findCategory('Munchies')} />
               </motion.div>
             </TabsContent>
 
@@ -158,7 +176,7 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Snacks" items={menuData.snacks} />
+                <MenuSection title="Snacks" category={findCategory('Snacks')} />
               </motion.div>
             </TabsContent>
 
@@ -169,7 +187,7 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Chinese" items={menuData.chinese} />
+                <MenuSection title="Chinese" category={findCategory('Chinese')} />
               </motion.div>
             </TabsContent>
 
@@ -180,7 +198,7 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Main Course" items={menuData.mainCourse} />
+                <MenuSection title="Main Course" category={findCategory('Main Course')} />
               </motion.div>
             </TabsContent>
 
@@ -191,7 +209,7 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Dessert" items={menuData.dessert} />
+                <MenuSection title="Dessert" category={findCategory('Dessert')} />
               </motion.div>
             </TabsContent>
 
@@ -202,7 +220,7 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Pizza" items={menuData.pizza} />
+                <MenuSection title="Pizza" category={findCategory('Pizza')} />
               </motion.div>
             </TabsContent>
           </AnimatePresence>
