@@ -3,6 +3,7 @@ import "./globals.css"
 import type { Metadata } from "next"
 import { Playfair_Display, Lato } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
+import { CartProvider } from "@/lib/cart-context"
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -18,7 +19,6 @@ const lato = Lato({
 export const metadata: Metadata = {
   title: "Mountain View Rooftop Cafe",
   description: "A serene rooftop cafe in the mountains of India",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en" className={`${playfair.variable} ${lato.variable}`}>
       <body>
         <ThemeProvider attribute="class" defaultTheme="light">
-          {children}
+          <CartProvider>{children}</CartProvider>
         </ThemeProvider>
       </body>
     </html>
