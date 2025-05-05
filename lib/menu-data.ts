@@ -2,6 +2,7 @@ export interface MenuItem {
   name: string;
   description: string;
   price: number;
+  labels?: string[];
 }
 
 export interface MenuData {
@@ -21,6 +22,7 @@ export const menuData: MenuData = {
       name: 'Oreo Shake',
       description: 'Creamy shake blended with Oreo cookies',
       price: 120,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Nutella Shake',
@@ -51,11 +53,13 @@ export const menuData: MenuData = {
       name: 'Cold Coffee',
       description: 'Chilled coffee blended with ice cream',
       price: 110,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Watermelon Juice',
       description: 'Freshly squeezed watermelon juice',
       price: 90,
+      labels: ['Vegan'],
     },
     {
       name: 'Orange Juice',
@@ -108,6 +112,7 @@ export const menuData: MenuData = {
       name: 'Aloo Pyaaz Parantha',
       description: 'Stuffed flatbread with potatoes and onions',
       price: 80,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Gobhi Parantha',
@@ -158,6 +163,7 @@ export const menuData: MenuData = {
       name: 'Shakshouka',
       description: 'Eggs poached in spiced tomato sauce',
       price: 150,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'English Breakfast',
@@ -255,6 +261,7 @@ export const menuData: MenuData = {
       name: 'Veg Pakode',
       description: 'Assorted vegetables battered and deep fried',
       price: 100,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Paneer Pakode',
@@ -290,6 +297,7 @@ export const menuData: MenuData = {
       name: 'Nacho Corn Cheese Chat',
       description: 'Nachos with corn and cheese topping',
       price: 120,
+      labels: ["Chef's Recommended"],
     },
   ],
   chinese: [
@@ -297,6 +305,7 @@ export const menuData: MenuData = {
       name: 'Chilli Potato',
       description: 'Crispy potatoes tossed in spicy sauce',
       price: 140,
+      labels: ["Chef's Recommended", 'Spicy'],
     },
     {
       name: 'Chilli Paneer',
@@ -332,11 +341,13 @@ export const menuData: MenuData = {
       name: 'Manchurian',
       description: 'Fried vegetable balls in tangy sauce',
       price: 130,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Chilli Chicken',
       description: 'Crispy chicken in spicy sauce',
       price: 180,
+      labels: ['Spicy'],
     },
     {
       name: 'Veg Fried Rice',
@@ -409,6 +420,7 @@ export const menuData: MenuData = {
       name: 'Cheese Garlic Fries',
       description: 'Fries topped with cheese and garlic',
       price: 130,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Veg Cheese Sandwich',
@@ -484,6 +496,7 @@ export const menuData: MenuData = {
       name: 'Paneer Fingers',
       description: 'Batter-fried cottage cheese strips',
       price: 150,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Kurkure Mushroom',
@@ -516,6 +529,7 @@ export const menuData: MenuData = {
       name: 'Veg Pizza',
       description: 'Pizza with assorted vegetables and cheese',
       price: 200,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Non-Veg Pizza',
@@ -553,6 +567,7 @@ export const menuData: MenuData = {
       name: 'Dal Makhni',
       description: 'Black lentils cooked with butter and cream',
       price: 150,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Dal Tadka',
@@ -593,6 +608,7 @@ export const menuData: MenuData = {
       name: 'Bhindi Masala',
       description: 'Okra cooked with spices',
       price: 140,
+      labels: ['Vegan'],
     },
     {
       name: 'Aloo Jeera',
@@ -608,6 +624,7 @@ export const menuData: MenuData = {
       name: 'Kadhai Chicken',
       description: 'Chicken cooked with bell peppers',
       price: 200,
+      labels: ['Spicy'],
     },
     {
       name: 'Pahadi Chicken',
@@ -628,6 +645,7 @@ export const menuData: MenuData = {
       name: 'Butter Chicken',
       description: 'Chicken in rich tomato and butter gravy',
       price: 220,
+      labels: ["Chef's Recommended"],
     },
   ],
   dessert: [
@@ -635,6 +653,7 @@ export const menuData: MenuData = {
       name: 'Shaahi Tukda',
       description: 'Fried bread soaked in sweetened milk',
       price: 100,
+      labels: ["Chef's Recommended"],
     },
     {
       name: 'Gulab Jamun',
