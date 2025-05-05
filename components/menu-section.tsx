@@ -1,6 +1,9 @@
+"use client"
+
 import type { MenuItem } from "@/lib/menu-data"
 import { AddToCartButton } from "@/components/cart/add-to-cart-button"
 import { Badge } from "@/components/ui/badge"
+import { motion, Variants } from "framer-motion"
 
 interface MenuSectionProps {
   title: string
@@ -8,11 +11,47 @@ interface MenuSectionProps {
 }
 
 export function MenuSection({ title, items }: MenuSectionProps) {
+  // Animation variants for the container
+  const container: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.05,
+        delayChildren: 0.1,
+      }
+    }
+  }
+
+  // Animation variants for each item
+  const itemVariant: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 300,
+        damping: 20,
+        mass: 1
+      }
+    }
+  }
+
   return (
     <div className="mb-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <motion.div
+        className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
+        variants={container}
+        initial="hidden"
+        animate="show"
+      >
         {items.map((item, index) => (
-          <div key={index} className="border-b border-stone-100 dark:border-stone-700 pb-4 flex flex-col">
+          <motion.div
+            key={index}
+            className="border-b border-stone-100 dark:border-stone-700 pb-4 flex flex-col"
+            variants={itemVariant}
+          >
             <div className="flex justify-between items-baseline mb-1">
               <div className="flex items-center gap-2">
                 <h3 className="font-display text-xl text-stone-800 dark:text-stone-100">{item.name}</h3>
@@ -61,9 +100,9 @@ export function MenuSection({ title, items }: MenuSectionProps) {
             <div className="flex justify-end mt-auto">
               <AddToCartButton item={item} />
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   )
 }

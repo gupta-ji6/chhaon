@@ -1,12 +1,38 @@
+'use client'
+
 import Image from "next/image"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent } from "@/components/ui/tabs"
+import { TabsList, TabsTrigger } from "@/components/animated-tabs"
 import { MenuSection } from "@/components/menu-section"
 import { menuData } from "@/lib/menu-data"
 import { ModeToggle } from "@/components/mode-toggle"
 import { CartButton } from "@/components/cart/cart-button"
 import { CartSidebar } from "@/components/cart/cart-sidebar"
+import { motion, AnimatePresence, Variants } from "framer-motion"
 
 export default function Home() {
+  // Animation variants for tabs content
+  const fadeIn: Variants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 400,
+        damping: 30,
+        duration: 0.3
+      }
+    },
+    exit: {
+      opacity: 0,
+      transition: {
+        duration: 0.2,
+        ease: "easeOut"
+      }
+    }
+  }
+
   return (
     <main className="min-h-screen bg-white dark:bg-stone-900 transition-colors duration-300">
       {/* Hero Section */}
@@ -43,85 +69,143 @@ export default function Home() {
           <TabsList className="grid grid-cols-4 md:grid-cols-8 h-auto mb-8 bg-stone-100 dark:bg-stone-800">
             <TabsTrigger
               value="drinks"
-              className="font-body text-sm md:text-base data-[state=active]:bg-white dark:data-[state=active]:bg-stone-700"
+              className="font-body text-sm md:text-base text-stone-600 dark:text-stone-300 data-[state=active]:text-stone-800 dark:data-[state=active]:text-white"
             >
               Drinks
             </TabsTrigger>
             <TabsTrigger
               value="breakfast"
-              className="font-body text-sm md:text-base data-[state=active]:bg-white dark:data-[state=active]:bg-stone-700"
+              className="font-body text-sm md:text-base text-stone-600 dark:text-stone-300 data-[state=active]:text-stone-800 dark:data-[state=active]:text-white"
             >
               Breakfast
             </TabsTrigger>
             <TabsTrigger
               value="munchies"
-              className="font-body text-sm md:text-base data-[state=active]:bg-white dark:data-[state=active]:bg-stone-700"
+              className="font-body text-sm md:text-base text-stone-600 dark:text-stone-300 data-[state=active]:text-stone-800 dark:data-[state=active]:text-white"
             >
               Munchies
             </TabsTrigger>
             <TabsTrigger
               value="snacks"
-              className="font-body text-sm md:text-base data-[state=active]:bg-white dark:data-[state=active]:bg-stone-700"
+              className="font-body text-sm md:text-base text-stone-600 dark:text-stone-300 data-[state=active]:text-stone-800 dark:data-[state=active]:text-white"
             >
               Snacks
             </TabsTrigger>
             <TabsTrigger
               value="chinese"
-              className="font-body text-sm md:text-base data-[state=active]:bg-white dark:data-[state=active]:bg-stone-700"
+              className="font-body text-sm md:text-base text-stone-600 dark:text-stone-300 data-[state=active]:text-stone-800 dark:data-[state=active]:text-white"
             >
               Chinese
             </TabsTrigger>
             <TabsTrigger
               value="main"
-              className="font-body text-sm md:text-base data-[state=active]:bg-white dark:data-[state=active]:bg-stone-700"
+              className="font-body text-sm md:text-base text-stone-600 dark:text-stone-300 data-[state=active]:text-stone-800 dark:data-[state=active]:text-white"
             >
               Main Course
             </TabsTrigger>
             <TabsTrigger
               value="dessert"
-              className="font-body text-sm md:text-base data-[state=active]:bg-white dark:data-[state=active]:bg-stone-700"
+              className="font-body text-sm md:text-base text-stone-600 dark:text-stone-300 data-[state=active]:text-stone-800 dark:data-[state=active]:text-white"
             >
               Dessert
             </TabsTrigger>
             <TabsTrigger
               value="pizza"
-              className="font-body text-sm md:text-base data-[state=active]:bg-white dark:data-[state=active]:bg-stone-700"
+              className="font-body text-sm md:text-base text-stone-600 dark:text-stone-300 data-[state=active]:text-stone-800 dark:data-[state=active]:text-white"
             >
               Pizza
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="drinks">
-            <MenuSection title="Drinks" items={menuData.drinks} />
-          </TabsContent>
+          <AnimatePresence mode="wait">
+            <TabsContent value="drinks">
+              <motion.div
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <MenuSection title="Drinks" items={menuData.drinks} />
+              </motion.div>
+            </TabsContent>
 
-          <TabsContent value="breakfast">
-            <MenuSection title="Breakfast" items={menuData.breakfast} />
-          </TabsContent>
+            <TabsContent value="breakfast">
+              <motion.div
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <MenuSection title="Breakfast" items={menuData.breakfast} />
+              </motion.div>
+            </TabsContent>
 
-          <TabsContent value="munchies">
-            <MenuSection title="Munchies" items={menuData.munchies} />
-          </TabsContent>
+            <TabsContent value="munchies">
+              <motion.div
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <MenuSection title="Munchies" items={menuData.munchies} />
+              </motion.div>
+            </TabsContent>
 
-          <TabsContent value="snacks">
-            <MenuSection title="Snacks" items={menuData.snacks} />
-          </TabsContent>
+            <TabsContent value="snacks">
+              <motion.div
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <MenuSection title="Snacks" items={menuData.snacks} />
+              </motion.div>
+            </TabsContent>
 
-          <TabsContent value="chinese">
-            <MenuSection title="Chinese" items={menuData.chinese} />
-          </TabsContent>
+            <TabsContent value="chinese">
+              <motion.div
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <MenuSection title="Chinese" items={menuData.chinese} />
+              </motion.div>
+            </TabsContent>
 
-          <TabsContent value="main">
-            <MenuSection title="Main Course" items={menuData.mainCourse} />
-          </TabsContent>
+            <TabsContent value="main">
+              <motion.div
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <MenuSection title="Main Course" items={menuData.mainCourse} />
+              </motion.div>
+            </TabsContent>
 
-          <TabsContent value="dessert">
-            <MenuSection title="Dessert" items={menuData.dessert} />
-          </TabsContent>
+            <TabsContent value="dessert">
+              <motion.div
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <MenuSection title="Dessert" items={menuData.dessert} />
+              </motion.div>
+            </TabsContent>
 
-          <TabsContent value="pizza">
-            <MenuSection title="Pizza" items={menuData.pizza} />
-          </TabsContent>
+            <TabsContent value="pizza">
+              <motion.div
+                variants={fadeIn}
+                initial="hidden"
+                animate="visible"
+                exit="exit"
+              >
+                <MenuSection title="Pizza" items={menuData.pizza} />
+              </motion.div>
+            </TabsContent>
+          </AnimatePresence>
         </Tabs>
       </section>
 

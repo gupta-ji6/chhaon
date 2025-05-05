@@ -1,3 +1,5 @@
+"use client"
+
 import type { CartItem } from "@/lib/cart-context"
 import { CheckCircle } from "lucide-react"
 import NumberFlow, { NumberFlowGroup } from "@number-flow/react"
