@@ -118,7 +118,7 @@ export default function Home() {
           </TabsList>
 
           <AnimatePresence mode="wait">
-            <TabsContent value="drinks">
+            <TabsContent key="drinks" value="drinks">
               <motion.div
                 variants={fadeIn}
                 initial="hidden"
@@ -129,7 +129,7 @@ export default function Home() {
               </motion.div>
             </TabsContent>
 
-            <TabsContent value="breakfast">
+            <TabsContent key="breakfast" value="breakfast">
               <motion.div
                 variants={fadeIn}
                 initial="hidden"
@@ -140,7 +140,7 @@ export default function Home() {
               </motion.div>
             </TabsContent>
 
-            <TabsContent value="munchies">
+            <TabsContent key="munchies" value="munchies">
               <motion.div
                 variants={fadeIn}
                 initial="hidden"
@@ -151,7 +151,7 @@ export default function Home() {
               </motion.div>
             </TabsContent>
 
-            <TabsContent value="snacks">
+            <TabsContent key="snacks" value="snacks">
               <motion.div
                 variants={fadeIn}
                 initial="hidden"
@@ -162,7 +162,7 @@ export default function Home() {
               </motion.div>
             </TabsContent>
 
-            <TabsContent value="chinese">
+            <TabsContent key="chinese" value="chinese">
               <motion.div
                 variants={fadeIn}
                 initial="hidden"
@@ -173,7 +173,7 @@ export default function Home() {
               </motion.div>
             </TabsContent>
 
-            <TabsContent value="main">
+            <TabsContent key="main" value="main">
               <motion.div
                 variants={fadeIn}
                 initial="hidden"
@@ -184,7 +184,7 @@ export default function Home() {
               </motion.div>
             </TabsContent>
 
-            <TabsContent value="dessert">
+            <TabsContent key="dessert" value="dessert">
               <motion.div
                 variants={fadeIn}
                 initial="hidden"
@@ -195,7 +195,7 @@ export default function Home() {
               </motion.div>
             </TabsContent>
 
-            <TabsContent value="pizza">
+            <TabsContent key="pizza" value="pizza">
               <motion.div
                 variants={fadeIn}
                 initial="hidden"
