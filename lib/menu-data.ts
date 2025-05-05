@@ -1,275 +1,655 @@
 export interface MenuItem {
-  name: string
-  description: string
-  price: number
+  name: string;
+  description: string;
+  price: number;
 }
 
 export interface MenuData {
-  drinks: MenuItem[]
-  breakfast: MenuItem[]
-  munchies: MenuItem[]
-  snacks: MenuItem[]
-  chinese: MenuItem[]
-  mainCourse: MenuItem[]
-  dessert: MenuItem[]
-  pizza: MenuItem[]
+  drinks: MenuItem[];
+  breakfast: MenuItem[];
+  munchies: MenuItem[];
+  snacks: MenuItem[];
+  chinese: MenuItem[];
+  mainCourse: MenuItem[];
+  dessert: MenuItem[];
+  pizza: MenuItem[];
 }
 
 export const menuData: MenuData = {
   drinks: [
     {
-      name: "Mountain Mist Tea",
-      description: "Locally sourced Himalayan tea with hints of jasmine and mint",
+      name: 'Oreo Shake',
+      description: 'Creamy shake blended with Oreo cookies',
       price: 120,
     },
     {
-      name: "Himalayan Coffee",
-      description: "Rich, aromatic coffee brewed with beans from local estates",
+      name: 'Nutella Shake',
+      description: 'Rich chocolate hazelnut shake with Nutella',
       price: 150,
     },
     {
-      name: "Fresh Fruit Smoothie",
-      description: "Seasonal mountain fruits blended with yogurt and honey",
-      price: 180,
+      name: 'Kitkat Shake',
+      description: 'Delicious shake blended with Kitkat chocolate',
+      price: 140,
     },
     {
-      name: "Valley Sunrise",
-      description: "Fresh orange, carrot, and ginger juice with a hint of turmeric",
-      price: 160,
+      name: 'Lemonade',
+      description: 'Refreshing lemon juice with water and sugar',
+      price: 80,
     },
     {
-      name: "Cedar Spiced Chai",
-      description: "Traditional masala chai with cardamom, cinnamon, and cloves",
-      price: 130,
+      name: 'Lemon Soda',
+      description: 'Fizzy lemon soda with a hint of mint',
+      price: 90,
     },
     {
-      name: "Alpine Hot Chocolate",
-      description: "Rich hot chocolate topped with whipped cream and cinnamon",
-      price: 170,
+      name: 'Punch',
+      description: 'Fruity punch with seasonal flavors',
+      price: 100,
+    },
+    {
+      name: 'Cold Coffee',
+      description: 'Chilled coffee blended with ice cream',
+      price: 110,
+    },
+    {
+      name: 'Watermelon Juice',
+      description: 'Freshly squeezed watermelon juice',
+      price: 90,
+    },
+    {
+      name: 'Orange Juice',
+      description: 'Freshly squeezed orange juice',
+      price: 90,
+    },
+    {
+      name: 'Grape Juice',
+      description: 'Freshly squeezed grape juice',
+      price: 100,
+    },
+    {
+      name: 'Apple Juice',
+      description: 'Freshly squeezed apple juice',
+      price: 100,
+    },
+    {
+      name: 'Masala Chai',
+      description: 'Traditional spiced Indian tea',
+      price: 40,
+    },
+    {
+      name: 'Hot Coffee',
+      description: 'Freshly brewed hot coffee',
+      price: 50,
+    },
+    {
+      name: 'Ginger Lemon Honey',
+      description: 'Soothing hot drink with ginger, lemon and honey',
+      price: 60,
+    },
+    {
+      name: 'Hot Chocolate',
+      description: 'Rich and creamy hot chocolate',
+      price: 80,
+    },
+    {
+      name: 'Kesar Milk',
+      description: 'Warm milk flavored with saffron',
+      price: 70,
+    },
+    {
+      name: 'Haldi Milk',
+      description: 'Warm milk with turmeric and spices',
+      price: 60,
     },
   ],
   breakfast: [
     {
-      name: "Mountain Sunrise Platter",
-      description: "Farm fresh eggs, toast, grilled tomatoes, mushrooms, and local herbs",
-      price: 280,
+      name: 'Aloo Pyaaz Parantha',
+      description: 'Stuffed flatbread with potatoes and onions',
+      price: 80,
     },
     {
-      name: "Himalayan Oatmeal Bowl",
-      description: "Creamy oatmeal with apple, cinnamon, walnuts, and local honey",
-      price: 220,
+      name: 'Gobhi Parantha',
+      description: 'Stuffed flatbread with spiced cauliflower',
+      price: 80,
     },
     {
-      name: "Aloo Paratha",
-      description: "Traditional stuffed potato flatbread served with yogurt and pickle",
-      price: 180,
+      name: 'Paneer Parantha',
+      description: 'Stuffed flatbread with cottage cheese',
+      price: 100,
     },
     {
-      name: "Avocado Toast",
-      description: "Multigrain toast topped with avocado, cherry tomatoes, and microgreens",
-      price: 250,
+      name: 'Onion Parantha',
+      description: 'Stuffed flatbread with spiced onions',
+      price: 70,
     },
     {
-      name: "Fruit & Yogurt Parfait",
-      description: "Layers of Greek yogurt, granola, and seasonal mountain berries",
+      name: 'Masala Omelette',
+      description: 'Spiced omelette with onions, tomatoes and herbs',
+      price: 90,
+    },
+    {
+      name: 'Half Fry Eggs',
+      description: 'Half fried eggs served with toast',
+      price: 70,
+    },
+    {
+      name: 'Boiled Eggs',
+      description: 'Boiled eggs with a sprinkle of spices',
+      price: 60,
+    },
+    {
+      name: 'Plain Omelette',
+      description: 'Simple fluffy omelette',
+      price: 70,
+    },
+    {
+      name: 'Spanish Omelette',
+      description: 'Omelette with potatoes, onions and bell peppers',
+      price: 120,
+    },
+    {
+      name: 'Cheese Omelette',
+      description: 'Omelette filled with melted cheese',
+      price: 100,
+    },
+    {
+      name: 'Shakshouka',
+      description: 'Eggs poached in spiced tomato sauce',
+      price: 150,
+    },
+    {
+      name: 'English Breakfast',
+      description: 'Eggs, baked beans, toast, sausage and grilled tomatoes',
       price: 200,
     },
     {
-      name: "Masala Omelette",
-      description: "Fluffy omelette with onions, tomatoes, green chilies, and coriander",
-      price: 190,
+      name: 'Chila',
+      description: 'Savory lentil pancake',
+      price: 80,
+    },
+    {
+      name: 'Nutella Pancake',
+      description: 'Fluffy pancakes topped with Nutella',
+      price: 120,
+    },
+    {
+      name: 'Lemon Sugar Pancake',
+      description: 'Pancakes with lemon and sugar topping',
+      price: 100,
+    },
+    {
+      name: 'Plain Pancake',
+      description: 'Classic fluffy pancakes with maple syrup',
+      price: 90,
+    },
+    {
+      name: 'Butter Toast',
+      description: 'Toasted bread with butter',
+      price: 50,
+    },
+    {
+      name: 'Peanut Butter Nutella Toast',
+      description: 'Toast with peanut butter and Nutella spread',
+      price: 80,
+    },
+    {
+      name: 'Poha',
+      description: 'Flattened rice tempered with spices',
+      price: 70,
+    },
+    {
+      name: 'Smoothie',
+      description: 'Fruit smoothie with yogurt and honey',
+      price: 100,
+    },
+    {
+      name: 'Cheese Tomato Toast',
+      description: 'Toast with melted cheese and sliced tomatoes',
+      price: 80,
+    },
+    {
+      name: 'Aloo Pyaaz Toast',
+      description: 'Toast topped with spiced potatoes and onions',
+      price: 90,
+    },
+    {
+      name: 'Aloo Poori',
+      description: 'Potato curry with deep fried bread',
+      price: 100,
+    },
+    {
+      name: 'Oats',
+      description: 'Healthy oats cooked with milk',
+      price: 80,
+    },
+    {
+      name: 'Muesli Bowl',
+      description: 'Muesli served with milk and fruits',
+      price: 120,
+    },
+    {
+      name: 'Samose',
+      description: 'Fried pastry with spiced potato filling',
+      price: 30,
+    },
+    {
+      name: 'Bread Roll',
+      description: 'Bread stuffed with spiced potatoes and fried',
+      price: 50,
+    },
+    {
+      name: 'Scrambled Eggs',
+      description: 'Creamy scrambled eggs served with toast',
+      price: 80,
+    },
+    {
+      name: 'Egg Bhurji',
+      description: 'Indian style scrambled eggs with spices',
+      price: 90,
     },
   ],
   munchies: [
     {
-      name: "Himalayan Hummus Platter",
-      description: "Creamy hummus with warm pita bread, olives, and vegetable sticks",
-      price: 250,
+      name: 'Veg Pakode',
+      description: 'Assorted vegetables battered and deep fried',
+      price: 100,
     },
     {
-      name: "Spiced Nuts",
-      description: "Assorted nuts roasted with Himalayan herbs and spices",
-      price: 180,
-    },
-    {
-      name: "Masala Papad",
-      description: "Crispy lentil wafers topped with diced tomatoes, onions, and spices",
+      name: 'Paneer Pakode',
+      description: 'Cottage cheese fritters',
       price: 120,
     },
     {
-      name: "Cheese Platter",
-      description: "Selection of local and imported cheeses with crackers and fruit",
-      price: 350,
+      name: 'Bread Pakode',
+      description: 'Bread slices stuffed and deep fried',
+      price: 80,
     },
     {
-      name: "Chilli Cheese Toast",
-      description: "Grilled bread topped with spicy cheese mix and herbs",
-      price: 190,
+      name: 'Peanut Masala',
+      description: 'Spiced peanuts with herbs and spices',
+      price: 70,
     },
     {
-      name: "Truffle Fries",
-      description: "Crispy potato fries tossed in truffle oil and parmesan",
-      price: 220,
-    },
-  ],
-  snacks: [
-    {
-      name: "Vegetable Pakoras",
-      description: "Assorted vegetables dipped in spiced chickpea batter and fried",
-      price: 180,
+      name: 'Veg Frozen Snacks',
+      description: 'Assorted vegetarian frozen snacks',
+      price: 150,
     },
     {
-      name: "Paneer Tikka",
-      description: "Marinated cottage cheese cubes grilled in a tandoor",
-      price: 250,
-    },
-    {
-      name: "Chilli Chicken",
-      description: "Crispy chicken tossed with bell peppers in a spicy sauce",
-      price: 280,
-    },
-    {
-      name: "Mushroom Garlic Toast",
-      description: "Grilled bread topped with sautéed garlic mushrooms",
-      price: 210,
-    },
-    {
-      name: "Samosa Chaat",
-      description: "Crushed samosas topped with yogurt, chutneys, and spices",
-      price: 190,
-    },
-    {
-      name: "Honey Chilli Potatoes",
-      description: "Crispy potato fingers tossed in a sweet and spicy sauce",
+      name: 'Non-Veg Frozen Snacks',
+      description: 'Assorted non-vegetarian frozen snacks',
       price: 200,
+    },
+    {
+      name: 'Sweet Corn Chat',
+      description: 'Sweet corn kernels mixed with spices',
+      price: 90,
+    },
+    {
+      name: 'Nacho Corn Cheese Chat',
+      description: 'Nachos with corn and cheese topping',
+      price: 120,
     },
   ],
   chinese: [
     {
-      name: "Vegetable Hakka Noodles",
-      description: "Stir-fried noodles with mixed vegetables and soy sauce",
-      price: 220,
+      name: 'Chilli Potato',
+      description: 'Crispy potatoes tossed in spicy sauce',
+      price: 140,
     },
     {
-      name: "Chilli Garlic Fried Rice",
-      description: "Aromatic rice stir-fried with garlic, chilies, and vegetables",
-      price: 240,
+      name: 'Chilli Paneer',
+      description: 'Cottage cheese cubes in spicy sauce',
+      price: 160,
     },
     {
-      name: "Kung Pao Tofu",
-      description: "Tofu and vegetables in a spicy Sichuan sauce with peanuts",
-      price: 260,
+      name: 'Honey Chilli Potato',
+      description: 'Crispy potatoes in sweet and spicy sauce',
+      price: 150,
     },
     {
-      name: "Manchurian",
-      description: "Vegetable or chicken dumplings in a tangy, spicy sauce",
-      price: 270,
+      name: 'Veg Momos',
+      description: 'Steamed dumplings with vegetable filling',
+      price: 100,
     },
     {
-      name: "Sweet and Sour Vegetables",
-      description: "Crispy vegetables tossed in a sweet and tangy sauce",
-      price: 250,
+      name: 'Non-Veg Momos',
+      description: 'Steamed dumplings with meat filling',
+      price: 130,
     },
     {
-      name: "Schezwan Chicken",
-      description: "Spicy chicken stir-fry with Schezwan peppers and vegetables",
-      price: 290,
-    },
-  ],
-  mainCourse: [
-    {
-      name: "Pahadi Chicken Curry",
-      description: "Traditional mountain-style chicken curry with local spices",
-      price: 320,
+      name: 'Veg Spring Roll',
+      description: 'Crispy rolls with vegetable filling',
+      price: 120,
     },
     {
-      name: "Dal Makhani",
-      description: "Slow-cooked black lentils with butter and cream",
-      price: 250,
+      name: 'Non-Veg Spring Roll',
+      description: 'Crispy rolls with meat filling',
+      price: 150,
     },
     {
-      name: "Paneer Butter Masala",
-      description: "Cottage cheese cubes in a rich tomato and butter gravy",
-      price: 280,
+      name: 'Manchurian',
+      description: 'Fried vegetable balls in tangy sauce',
+      price: 130,
     },
     {
-      name: "Vegetable Biryani",
-      description: "Fragrant rice cooked with mixed vegetables and aromatic spices",
-      price: 270,
-    },
-    {
-      name: "Rogan Josh",
-      description: "Aromatic lamb curry cooked with Kashmiri spices",
-      price: 350,
-    },
-    {
-      name: "Palak Paneer",
-      description: "Cottage cheese cubes in a creamy spinach gravy",
-      price: 270,
-    },
-  ],
-  dessert: [
-    {
-      name: "Apple Cinnamon Crumble",
-      description: "Warm local apple crumble served with vanilla ice cream",
-      price: 220,
-    },
-    {
-      name: "Gulab Jamun",
-      description: "Soft milk dumplings soaked in rose-flavored sugar syrup",
+      name: 'Chilli Chicken',
+      description: 'Crispy chicken in spicy sauce',
       price: 180,
     },
     {
-      name: "Chocolate Walnut Brownie",
-      description: "Rich chocolate brownie with walnuts, served warm with ice cream",
-      price: 240,
+      name: 'Veg Fried Rice',
+      description: 'Rice stir-fried with mixed vegetables',
+      price: 120,
     },
     {
-      name: "Kheer",
-      description: "Traditional rice pudding flavored with cardamom and saffron",
-      price: 190,
+      name: 'Schezwan Fried Rice',
+      description: 'Rice stir-fried with spicy Schezwan sauce',
+      price: 130,
     },
     {
-      name: "Fresh Fruit Platter",
-      description: "Selection of seasonal mountain fruits",
-      price: 210,
+      name: 'Chilli Garlic Fried Rice',
+      description: 'Rice stir-fried with chilli and garlic',
+      price: 130,
     },
     {
-      name: "Honey Ginger Cheesecake",
-      description: "Creamy cheesecake with local honey and a hint of ginger",
-      price: 250,
+      name: 'Chicken Fried Rice',
+      description: 'Rice stir-fried with chicken pieces',
+      price: 150,
+    },
+    {
+      name: 'Egg Fried Rice',
+      description: 'Rice stir-fried with scrambled eggs',
+      price: 130,
+    },
+    {
+      name: 'Veg Noodles',
+      description: 'Noodles stir-fried with mixed vegetables',
+      price: 120,
+    },
+    {
+      name: 'Schezwan Noodles',
+      description: 'Noodles stir-fried with spicy Schezwan sauce',
+      price: 130,
+    },
+    {
+      name: 'Chilli Garlic Noodles',
+      description: 'Noodles stir-fried with chilli and garlic',
+      price: 130,
+    },
+    {
+      name: 'Chicken Noodles',
+      description: 'Noodles stir-fried with chicken pieces',
+      price: 150,
+    },
+    {
+      name: 'Egg Noodles',
+      description: 'Noodles stir-fried with scrambled eggs',
+      price: 130,
+    },
+  ],
+  snacks: [
+    {
+      name: 'Fries',
+      description: 'Classic crispy french fries',
+      price: 100,
+    },
+    {
+      name: 'Peri Peri Fries',
+      description: 'Fries tossed in peri peri spice',
+      price: 120,
+    },
+    {
+      name: 'Chilli Cheese Toast',
+      description: 'Toast topped with chilli and melted cheese',
+      price: 90,
+    },
+    {
+      name: 'Cheese Garlic Fries',
+      description: 'Fries topped with cheese and garlic',
+      price: 130,
+    },
+    {
+      name: 'Veg Cheese Sandwich',
+      description: 'Sandwich with mixed vegetables and cheese',
+      price: 120,
+    },
+    {
+      name: 'Mushroom Olive Sandwich',
+      description: 'Sandwich with sautéed mushrooms and olives',
+      price: 140,
+    },
+    {
+      name: 'Chicken Sandwich',
+      description: 'Sandwich with spiced chicken filling',
+      price: 150,
+    },
+    {
+      name: 'Chicken Frozen Items Sandwich',
+      description: 'Sandwich with frozen chicken snacks',
+      price: 160,
+    },
+    {
+      name: 'Veg Wrap',
+      description: 'Tortilla wrap with mixed vegetables',
+      price: 130,
+    },
+    {
+      name: 'Paneer Wrap',
+      description: 'Tortilla wrap with spiced cottage cheese',
+      price: 150,
+    },
+    {
+      name: 'Chicken Wrap',
+      description: 'Tortilla wrap with spiced chicken',
+      price: 170,
+    },
+    {
+      name: 'Veg Burger',
+      description: 'Burger with vegetable patty',
+      price: 120,
+    },
+    {
+      name: 'Chicken Burger',
+      description: 'Burger with chicken patty',
+      price: 150,
+    },
+    {
+      name: 'Paneer Burger',
+      description: 'Burger with cottage cheese patty',
+      price: 140,
+    },
+    {
+      name: 'Garlic Bread',
+      description: 'Bread topped with garlic butter',
+      price: 100,
+    },
+    {
+      name: 'Crispy Chicken',
+      description: 'Crunchy fried chicken pieces',
+      price: 180,
+    },
+    {
+      name: 'Veg Kurkure Kabab',
+      description: 'Vegetable patties coated with crushed Kurkure',
+      price: 140,
+    },
+    {
+      name: 'Cheese Balls',
+      description: 'Deep-fried cheese-filled balls',
+      price: 130,
+    },
+    {
+      name: 'Paneer Fingers',
+      description: 'Batter-fried cottage cheese strips',
+      price: 150,
+    },
+    {
+      name: 'Kurkure Mushroom',
+      description: 'Mushrooms coated with crushed Kurkure',
+      price: 150,
+    },
+    {
+      name: 'Siddu',
+      description: 'Traditional Himachali steamed bun with filling',
+      price: 120,
+    },
+    {
+      name: 'Pasta',
+      description: 'Pasta in creamy sauce with vegetables',
+      price: 150,
+    },
+    {
+      name: 'Macroni',
+      description: 'Macaroni in tomato sauce with vegetables',
+      price: 140,
+    },
+    {
+      name: 'Brushchetta/Toasties',
+      description: 'Toasted bread with tomato, basil and olive oil',
+      price: 120,
     },
   ],
   pizza: [
     {
-      name: "Margherita",
-      description: "Classic pizza with tomato sauce, mozzarella, and fresh basil",
-      price: 280,
+      name: 'Veg Pizza',
+      description: 'Pizza with assorted vegetables and cheese',
+      price: 200,
     },
     {
-      name: "Vegetable Supreme",
-      description: "Loaded with bell peppers, onions, mushrooms, olives, and corn",
-      price: 320,
-    },
-    {
-      name: "Paneer Tikka",
-      description: "Tandoori spiced cottage cheese with onions and bell peppers",
-      price: 340,
-    },
-    {
-      name: "Chicken Tikka",
-      description: "Tandoori chicken with onions on a spiced tomato base",
-      price: 360,
-    },
-    {
-      name: "Mountain Special",
-      description: "Our signature pizza with local herbs, mushrooms, and cheese",
-      price: 380,
-    },
-    {
-      name: "Pesto Garden",
-      description: "Basil pesto base with zucchini, cherry tomatoes, and feta cheese",
-      price: 350,
+      name: 'Non-Veg Pizza',
+      description: 'Pizza with chicken and cheese',
+      price: 250,
     },
   ],
-}
+  mainCourse: [
+    {
+      name: 'Plain Rice',
+      description: 'Steamed white rice',
+      price: 80,
+    },
+    {
+      name: 'Plain Roti',
+      description: 'Traditional Indian flatbread',
+      price: 15,
+    },
+    {
+      name: 'Butter Roti',
+      description: 'Flatbread topped with butter',
+      price: 20,
+    },
+    {
+      name: 'Plain Parantha',
+      description: 'Layered flatbread',
+      price: 30,
+    },
+    {
+      name: 'Kadhi',
+      description: 'Yogurt-based curry with pakoras',
+      price: 120,
+    },
+    {
+      name: 'Dal Makhni',
+      description: 'Black lentils cooked with butter and cream',
+      price: 150,
+    },
+    {
+      name: 'Dal Tadka',
+      description: 'Yellow lentils tempered with spices',
+      price: 130,
+    },
+    {
+      name: 'Mushroom Masala',
+      description: 'Mushrooms cooked in spicy gravy',
+      price: 160,
+    },
+    {
+      name: 'Shahi Paneer',
+      description: 'Cottage cheese in rich creamy gravy',
+      price: 170,
+    },
+    {
+      name: 'Paneer Lababdar',
+      description: 'Cottage cheese in tomato-based gravy',
+      price: 170,
+    },
+    {
+      name: 'Kadhai Paneer',
+      description: 'Cottage cheese cooked with bell peppers',
+      price: 170,
+    },
+    {
+      name: 'Malai Kofta',
+      description: 'Cottage cheese dumplings in creamy gravy',
+      price: 180,
+    },
+    {
+      name: 'Rajma Masala',
+      description: 'Kidney beans curry',
+      price: 140,
+    },
+    {
+      name: 'Bhindi Masala',
+      description: 'Okra cooked with spices',
+      price: 140,
+    },
+    {
+      name: 'Aloo Jeera',
+      description: 'Potatoes tempered with cumin',
+      price: 120,
+    },
+    {
+      name: 'Paneer Bhurji',
+      description: 'Scrambled cottage cheese with spices',
+      price: 160,
+    },
+    {
+      name: 'Kadhai Chicken',
+      description: 'Chicken cooked with bell peppers',
+      price: 200,
+    },
+    {
+      name: 'Pahadi Chicken',
+      description: 'Chicken in mountain-style spices',
+      price: 210,
+    },
+    {
+      name: 'Chicken Curry',
+      description: 'Traditional chicken curry',
+      price: 190,
+    },
+    {
+      name: 'Egg Curry',
+      description: 'Boiled eggs in spicy gravy',
+      price: 150,
+    },
+    {
+      name: 'Butter Chicken',
+      description: 'Chicken in rich tomato and butter gravy',
+      price: 220,
+    },
+  ],
+  dessert: [
+    {
+      name: 'Shaahi Tukda',
+      description: 'Fried bread soaked in sweetened milk',
+      price: 100,
+    },
+    {
+      name: 'Gulab Jamun',
+      description: 'Deep-fried milk solids soaked in sugar syrup',
+      price: 80,
+    },
+    {
+      name: 'Suji Ka Halwa',
+      description: 'Semolina pudding with nuts',
+      price: 80,
+    },
+    {
+      name: 'Kheer',
+      description: 'Rice pudding with nuts and cardamom',
+      price: 90,
+    },
+  ],
+};
