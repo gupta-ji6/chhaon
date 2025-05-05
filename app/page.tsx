@@ -1,7 +1,7 @@
 'use client'
 
 import Image from "next/image"
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { menuData, MenuCategory } from "@/lib/menu-data"
 import { MenuSection } from "@/components/menu-section"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -9,8 +9,18 @@ import { ModeToggle } from "@/components/mode-toggle"
 import { CartSidebar } from "@/components/cart/cart-sidebar"
 import { FloatingCartButton } from "@/components/cart/floating-cart-button"
 import { motion, AnimatePresence, Variants } from "framer-motion"
+import { MenuFilter } from "@/components/menu-filter"
+import { extractUniqueFilters } from "@/lib/filter-utils"
 
 export default function Home() {
+  const [selectedGlobalFilters, setSelectedGlobalFilters] = useState<string[]>([])
+  const [activeTab, setActiveTab] = useState("drinks")
+
+  // Get all available filters across all categories
+  const globalFilters = useMemo(() => {
+    return extractUniqueFilters(menuData.categories)
+  }, [])
+
   // Animation variants for tabs content
   const fadeIn: Variants = {
     hidden: { opacity: 0, y: 10 },
@@ -50,6 +60,11 @@ export default function Home() {
     return category;
   }
 
+  // Handle tab change
+  const handleTabChange = (value: string) => {
+    setActiveTab(value)
+  }
+
   return (
     <main className="min-h-screen bg-white dark:bg-stone-900 transition-colors duration-300">
       {/* Hero Section */}
@@ -77,11 +92,31 @@ export default function Home() {
 
       {/* Menu Section */}
       <section className="max-w-5xl mx-auto px-4 py-12 md:py-20">
-        <h2 className="font-display text-3xl md:text-4xl text-center mb-12 text-stone-800 dark:text-stone-100">
+        <h2 className="font-display text-3xl md:text-4xl text-center mb-8 text-stone-800 dark:text-stone-100">
           Our Menu
         </h2>
 
-        <Tabs defaultValue="drinks" className="w-full">
+        {/* Global Filter */}
+        {globalFilters.length > 0 && (
+          <div className="mb-6">
+            <div className="p-4 bg-indigo-50/50 dark:bg-indigo-900/10 rounded-lg border border-indigo-100 dark:border-indigo-900/20">
+              <MenuFilter
+                filters={globalFilters}
+                selectedFilters={selectedGlobalFilters}
+                onFilterChange={setSelectedGlobalFilters}
+                className="max-w-full"
+                isGlobal={true}
+              />
+            </div>
+          </div>
+        )}
+
+        <Tabs
+          defaultValue="drinks"
+          className="w-full"
+          value={activeTab}
+          onValueChange={handleTabChange}
+        >
           <TabsList className="grid grid-cols-4 md:grid-cols-8 h-auto mb-8 bg-stone-100 dark:bg-stone-800">
             <TabsTrigger
               value="drinks"
@@ -141,7 +176,11 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Drinks" category={findCategory('Drinks')} />
+                <MenuSection
+                  title="Drinks"
+                  category={findCategory('Drinks')}
+                  globalFilters={selectedGlobalFilters}
+                />
               </motion.div>
             </TabsContent>
 
@@ -152,7 +191,11 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Breakfast" category={findCategory('Breakfast')} />
+                <MenuSection
+                  title="Breakfast"
+                  category={findCategory('Breakfast')}
+                  globalFilters={selectedGlobalFilters}
+                />
               </motion.div>
             </TabsContent>
 
@@ -163,7 +206,11 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Munchies" category={findCategory('Munchies')} />
+                <MenuSection
+                  title="Munchies"
+                  category={findCategory('Munchies')}
+                  globalFilters={selectedGlobalFilters}
+                />
               </motion.div>
             </TabsContent>
 
@@ -174,7 +221,11 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Snacks" category={findCategory('Snacks')} />
+                <MenuSection
+                  title="Snacks"
+                  category={findCategory('Snacks')}
+                  globalFilters={selectedGlobalFilters}
+                />
               </motion.div>
             </TabsContent>
 
@@ -185,7 +236,11 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Chinese" category={findCategory('Chinese')} />
+                <MenuSection
+                  title="Chinese"
+                  category={findCategory('Chinese')}
+                  globalFilters={selectedGlobalFilters}
+                />
               </motion.div>
             </TabsContent>
 
@@ -196,7 +251,11 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Main Course" category={findCategory('Main Course')} />
+                <MenuSection
+                  title="Main Course"
+                  category={findCategory('Main Course')}
+                  globalFilters={selectedGlobalFilters}
+                />
               </motion.div>
             </TabsContent>
 
@@ -207,7 +266,11 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Dessert" category={findCategory('Dessert')} />
+                <MenuSection
+                  title="Dessert"
+                  category={findCategory('Dessert')}
+                  globalFilters={selectedGlobalFilters}
+                />
               </motion.div>
             </TabsContent>
 
@@ -218,7 +281,11 @@ export default function Home() {
                 animate="visible"
                 exit="exit"
               >
-                <MenuSection title="Pizza" category={findCategory('Pizza')} />
+                <MenuSection
+                  title="Pizza"
+                  category={findCategory('Pizza')}
+                  globalFilters={selectedGlobalFilters}
+                />
               </motion.div>
             </TabsContent>
           </AnimatePresence>

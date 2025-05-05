@@ -1,11 +1,14 @@
 "use client"
 
+import { useState, useEffect, useMemo } from "react"
 import type { MenuItem, SubCategory, MenuCategory } from "@/lib/menu-data"
 import { AddToCartButton } from "@/components/cart/add-to-cart-button"
 import { Badge } from "@/components/ui/badge"
 import { motion, Variants, AnimatePresence } from "framer-motion"
 import { useCart } from "@/lib/cart-context"
 import { Heart, MinusCircle, ChefHat, Flame, Leaf } from "lucide-react"
+import { MenuFilter, FilterOption } from "@/components/menu-filter"
+import { extractUniqueFilters, filterItems, filterSubcategories } from "@/lib/filter-utils"
 
 interface MenuItemProps {
   item: MenuItem
@@ -214,10 +217,58 @@ function SubCategorySection({ subcategory }: SubCategoryProps) {
 interface MenuSectionProps {
   title: string
   category: MenuCategory | MenuItem[]
+  globalFilters?: string[]
 }
 
-export function MenuSection({ title, category }: MenuSectionProps) {
-  // Animation variants for the container
+export function MenuSection({ title, category, globalFilters = [] }: MenuSectionProps) {
+  const [localFilters, setLocalFilters] = useState<string[]>([])
+
+  // Combine global and local filters
+  const selectedFilters = useMemo(() => {
+    return [...new Set([...globalFilters, ...localFilters])]
+  }, [globalFilters, localFilters])
+
+  // Get all available filters for this category
+  const availableFilters = useMemo(() => {
+    if (Array.isArray(category)) {
+      // Extract filters from array of items
+      const itemLabels = new Map<string, number>()
+
+      // Count occurrences of each label and discounted items
+      category.forEach(item => {
+        // Count labels
+        if (item.labels && item.labels.length > 0) {
+          item.labels.forEach(label => {
+            itemLabels.set(label, (itemLabels.get(label) || 0) + 1)
+          })
+        }
+
+        // Count discounted items
+        if (item.originalPrice) {
+          itemLabels.set("Discount", (itemLabels.get("Discount") || 0) + 1)
+        }
+      })
+
+      // Convert to filter options
+      return Array.from(itemLabels.entries()).map(([value, count]) => ({
+        label: value === "Chef's Recommended" ? "Chef's Pick" :
+          value === "Discount" ? "On Discount" : value,
+        value,
+        count
+      })).sort((a, b) => b.count - a.count)
+    }
+
+    // Extract filters from category with subcategories
+    if ('subcategories' in category || 'items' in category) {
+      // Create a temporary category array with just this category
+      const tempCategories = [category]
+      return extractUniqueFilters(tempCategories)
+    }
+
+    return []
+  }, [category])
+
+  // Animation variants
   const container: Variants = {
     hidden: { opacity: 0 },
     show: {
@@ -229,7 +280,6 @@ export function MenuSection({ title, category }: MenuSectionProps) {
     }
   }
 
-  // Title animation variant
   const titleVariant: Variants = {
     hidden: { opacity: 0, y: -20 },
     show: {
@@ -243,9 +293,14 @@ export function MenuSection({ title, category }: MenuSectionProps) {
     }
   }
 
+  // Filter handler - only updates local filters
+  const handleFilterChange = (filters: string[]) => {
+    setLocalFilters(filters)
+  }
+
   const renderTitle = () => (
     <motion.div
-      className="mb-8"
+      className="mb-4"
       variants={titleVariant}
       initial="hidden"
       animate="show"
@@ -257,52 +312,104 @@ export function MenuSection({ title, category }: MenuSectionProps) {
     </motion.div>
   );
 
+  // Render category filters with new styling
+  const renderCategoryFilters = () => {
+    if (availableFilters.length === 0) return null;
+
+    return (
+      <div className="mb-6 p-3 bg-stone-50/80 dark:bg-stone-800/30 rounded-lg border border-stone-200 dark:border-stone-700/50">
+        <MenuFilter
+          filters={availableFilters}
+          selectedFilters={selectedFilters}
+          onFilterChange={handleFilterChange}
+          className="max-w-full"
+          isGlobal={false}
+          globalFilters={globalFilters}
+        />
+      </div>
+    );
+  };
+
   // If category has items directly (old structure or category without subcategories)
   if (Array.isArray(category)) {
+    const filteredItems = filterItems(category, selectedFilters)
+
     return (
       <div className="mb-12">
         {renderTitle()}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 p-5 bg-stone-50 dark:bg-stone-800/50 rounded-lg"
-          variants={container}
-          initial="hidden"
-          animate="show"
-        >
-          {category.map((item: MenuItem, index: number) => (
-            <MenuItemCard key={index} item={item} />
-          ))}
-        </motion.div>
+        {renderCategoryFilters()}
+
+        {filteredItems.length > 0 ? (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 p-5 bg-stone-50 dark:bg-stone-800/50 rounded-lg"
+            variants={container}
+            initial="hidden"
+            animate="show"
+            key={selectedFilters.join(',')} // Key to force re-render on filter change
+          >
+            {filteredItems.map((item: MenuItem, index: number) => (
+              <MenuItemCard key={`${item.name}-${index}`} item={item} />
+            ))}
+          </motion.div>
+        ) : (
+          <div className="text-center py-8 bg-stone-50 dark:bg-stone-800/50 rounded-lg">
+            <p className="text-stone-500 dark:text-stone-400">No items match the selected filters</p>
+          </div>
+        )}
       </div>
     );
   }
 
-  // New structure with subcategories
+  // New structure with items directly in category
   if (category.items) {
+    const filteredItems = filterItems(category.items, selectedFilters)
+
     return (
       <div className="mb-12">
         {renderTitle()}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 p-5 bg-stone-50 dark:bg-stone-800/50 rounded-lg"
-          variants={container}
-          initial="hidden"
-          animate="show"
-        >
-          {category.items.map((item: MenuItem, index: number) => (
-            <MenuItemCard key={index} item={item} />
-          ))}
-        </motion.div>
+        {renderCategoryFilters()}
+
+        {filteredItems.length > 0 ? (
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 p-5 bg-stone-50 dark:bg-stone-800/50 rounded-lg"
+            variants={container}
+            initial="hidden"
+            animate="show"
+            key={selectedFilters.join(',')} // Key to force re-render on filter change
+          >
+            {filteredItems.map((item: MenuItem, index: number) => (
+              <MenuItemCard key={`${item.name}-${index}`} item={item} />
+            ))}
+          </motion.div>
+        ) : (
+          <div className="text-center py-8 bg-stone-50 dark:bg-stone-800/50 rounded-lg">
+            <p className="text-stone-500 dark:text-stone-400">No items match the selected filters</p>
+          </div>
+        )}
       </div>
     );
   }
 
   // New structure with subcategories
   if (category.subcategories) {
+    const filteredSubcategories = filterSubcategories(category.subcategories, selectedFilters)
+
     return (
       <div className="mb-12">
         {renderTitle()}
-        {category.subcategories.map((subcategory: SubCategory, index: number) => (
-          <SubCategorySection key={index} subcategory={subcategory} />
-        ))}
+        {renderCategoryFilters()}
+
+        {filteredSubcategories.length > 0 ? (
+          <>
+            {filteredSubcategories.map((subcategory: SubCategory, index: number) => (
+              <SubCategorySection key={`${subcategory.name}-${index}`} subcategory={subcategory} />
+            ))}
+          </>
+        ) : (
+          <div className="text-center py-8 bg-stone-50 dark:bg-stone-800/50 rounded-lg">
+            <p className="text-stone-500 dark:text-stone-400">No items match the selected filters</p>
+          </div>
+        )}
       </div>
     );
   }
