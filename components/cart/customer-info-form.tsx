@@ -8,6 +8,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { ArrowLeft } from "lucide-react"
+import { AnimatedButton } from "@/components/ui/animated-button"
+import { motion } from "framer-motion"
 
 const formSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -39,87 +41,105 @@ export function CustomerInfoForm({ onSubmit, onBack }: CustomerInfoFormProps) {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Your name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: "spring", damping: 25, stiffness: 400 }}
+    >
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Phone Number</FormLabel>
-              <FormControl>
-                <Input placeholder="Your phone number" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone Number</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your phone number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="tableNumber"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Table Number (optional)</FormLabel>
-              <FormControl>
-                <Input placeholder="Your table number" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="tableNumber"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Table Number (optional)</FormLabel>
+                <FormControl>
+                  <Input placeholder="Your table number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="specialInstructions"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Special Instructions (optional)</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Any special requests or dietary requirements"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="specialInstructions"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Special Instructions (optional)</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Any special requests or dietary requirements"
+                    className="resize-none"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <div className="flex flex-col gap-3">
-          <Button type="submit" className="w-full" size="lg">
-            Place Order
-          </Button>
+          <div className="flex flex-col gap-3">
+            <div style={{ display: "block" }}>
+              <AnimatedButton
+                type="submit"
+                className="w-full"
+                size="lg"
+                scaleAmount={0.97}
+                springConfig={{ stiffness: 400, damping: 20 }}
+              >
+                Place Order
+              </AnimatedButton>
+            </div>
 
-          {onBack && (
-            <Button
-              type="button"
-              variant="outline"
-              size="lg"
-              className="w-full"
-              onClick={onBack}
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Order
-            </Button>
-          )}
-        </div>
-      </form>
-    </Form>
+            {onBack && (
+              <div style={{ display: "block" }}>
+                <AnimatedButton
+                  type="button"
+                  variant="outline"
+                  size="lg"
+                  className="w-full"
+                  onClick={onBack}
+                  scaleAmount={0.97}
+                  springConfig={{ stiffness: 400, damping: 20 }}
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Back to Order
+                </AnimatedButton>
+              </div>
+            )}
+          </div>
+        </form>
+      </Form>
+    </motion.div>
   )
 }
