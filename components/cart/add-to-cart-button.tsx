@@ -27,8 +27,8 @@ export function AddToCartButton({ item }: AddToCartButtonProps) {
           size="icon"
           className="h-7 w-7 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700"
           onClick={() => updateQuantity(item.name, quantity - 1)}
-          scaleAmount={0.8}
-          springConfig={{ stiffness: 500, damping: 15 }}
+          scaleAmount={0.7}
+          springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
         >
           <Minus className="h-3 w-3" />
           <span className="sr-only">Decrease quantity</span>
@@ -45,8 +45,8 @@ export function AddToCartButton({ item }: AddToCartButtonProps) {
           size="icon"
           className="h-7 w-7 rounded-full hover:bg-stone-200 dark:hover:bg-stone-700"
           onClick={() => updateQuantity(item.name, quantity + 1)}
-          scaleAmount={0.8}
-          springConfig={{ stiffness: 500, damping: 15 }}
+          scaleAmount={0.7}
+          springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
         >
           <Plus className="h-3 w-3" />
           <span className="sr-only">Increase quantity</span>
@@ -61,7 +61,7 @@ export function AddToCartButton({ item }: AddToCartButtonProps) {
         className="h-8 rounded-full px-3 text-primary hover:bg-primary/10 border-primary/20"
         onClick={() => addItem(item)}
         scaleAmount={0.92}
-        springConfig={{ stiffness: 300, damping: 20 }}
+        springConfig={{ stiffness: 400, damping: 17, mass: 1 }}
       >
         <Plus className="h-4 w-4 mr-1" />
         Add to Order

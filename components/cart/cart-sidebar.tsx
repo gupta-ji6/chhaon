@@ -54,7 +54,8 @@ export function CartSidebar() {
                   size="icon"
                   className="mr-2 -ml-2"
                   onClick={handleBackToOrder}
-                  scaleAmount={0.9}
+                  scaleAmount={0.8}
+                  springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
                 >
                   <ArrowLeft className="h-5 w-5" />
                   <span className="sr-only">Back to order</span>
@@ -122,7 +123,8 @@ export function CartSidebar() {
                           size="icon"
                           className="h-6 w-6 text-muted-foreground hover:text-foreground"
                           onClick={() => removeItem(item.name)}
-                          scaleAmount={0.85}
+                          scaleAmount={0.7}
+                          springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
                         >
                           <X className="h-4 w-4" />
                           <span className="sr-only">Remove</span>
@@ -136,7 +138,8 @@ export function CartSidebar() {
                             size="icon"
                             className="h-7 w-7 rounded-full"
                             onClick={() => updateQuantity(item.name, item.quantity - 1)}
-                            scaleAmount={0.8}
+                            scaleAmount={0.7}
+                            springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
                           >
                             <Minus className="h-3 w-3" />
                             <span className="sr-only">Decrease quantity</span>
@@ -153,7 +156,8 @@ export function CartSidebar() {
                             size="icon"
                             className="h-7 w-7 rounded-full"
                             onClick={() => updateQuantity(item.name, item.quantity + 1)}
-                            scaleAmount={0.8}
+                            scaleAmount={0.7}
+                            springConfig={{ stiffness: 700, damping: 15, mass: 0.8 }}
                           >
                             <Plus className="h-3 w-3" />
                             <span className="sr-only">Increase quantity</span>
@@ -184,8 +188,8 @@ export function CartSidebar() {
                   size="lg"
                   disabled={items.length === 0}
                   onClick={handleCheckout}
-                  scaleAmount={0.97}
-                  springConfig={{ stiffness: 400, damping: 20 }}
+                  scaleAmount={0.95}
+                  springConfig={{ stiffness: 500, damping: 17, mass: 1 }}
                 >
                   Checkout
                 </AnimatedButton>

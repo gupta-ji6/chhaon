@@ -22,6 +22,14 @@ export function AnimatedButton({
 }) {
     return (
         <motion.div
+            whileHover={{
+                scale: 1.03,
+                transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 15
+                }
+            }}
             whileTap={{
                 scale: scaleAmount,
                 transition: {
@@ -58,14 +66,31 @@ export function AnimatedIconButton({
 }) {
     return (
         <motion.div
+            whileHover={{
+                scale: 1.1,
+                transition: {
+                    type: "spring",
+                    stiffness: 400,
+                    damping: 10
+                }
+            }}
             whileTap={{
                 scale: scaleAmount,
                 transition: {
                     type: "spring",
-                    stiffness: springConfig.stiffness,
-                    damping: springConfig.damping,
-                    mass: springConfig.mass
+                    stiffness: 700,
+                    damping: 15,
+                    mass: 0.8,
+                    velocity: 5
                 }
+            }}
+            initial={{ scale: 1 }}
+            animate={{ scale: 1 }}
+            transition={{
+                type: "spring",
+                stiffness: 500,
+                damping: 15,
+                mass: 1
             }}
         >
             <Button
