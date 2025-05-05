@@ -13,13 +13,13 @@ export default function Home() {
       <div className="relative h-[40vh] md:h-[50vh] w-full">
         <Image
           src="/images/mountain-cafe.jpg"
-          alt="Mountain View Rooftop Cafe"
+          alt="Chhaon Rooftop Cafe"
           fill
           priority
           className="object-cover brightness-[0.85] dark:brightness-[0.7]"
         />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4 text-center">
-          <h1 className="font-display text-4xl md:text-6xl font-bold mb-2 tracking-wide">Mountain View</h1>
+          <h1 className="font-display text-4xl md:text-6xl font-bold mb-2 tracking-wide">Chhaon</h1>
           <p className="font-body text-xl md:text-2xl italic">Rooftop Cafe & Restaurant</p>
         </div>
 
@@ -128,7 +128,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-stone-100 dark:bg-stone-800 py-8 px-4 transition-colors duration-300">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="font-display text-2xl mb-4 text-stone-800 dark:text-stone-100">Mountain View Rooftop Cafe</h2>
+          <h2 className="font-display text-2xl mb-4 text-stone-800 dark:text-stone-100">Chhaon Rooftop Cafe</h2>
           <p className="font-body text-stone-600 dark:text-stone-300 mb-2">Open daily: 7:00 AM - 10:00 PM</p>
           <p className="font-body text-stone-600 dark:text-stone-300">
             Himalayan Heights, Shimla, Himachal Pradesh, India

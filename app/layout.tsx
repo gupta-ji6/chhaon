@@ -17,7 +17,7 @@ const lato = Lato({
 })
 
 export const metadata: Metadata = {
-  title: "Mountain View Rooftop Cafe",
+  title: "Chhaon Rooftop Cafe",
   description: "A serene rooftop cafe in the mountains of India",
 }
 
