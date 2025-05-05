@@ -50,6 +50,27 @@ function countItemLabels(item: MenuItem, filterCounts: Map<string, number>) {
       filterCounts.set(label, currentCount + 1);
     });
   }
+
+  // Make sure we're counting dietary labels
+  // even if they're not frequent enough to show up in the main filters
+  if (item.labels) {
+    if (item.labels.includes('Vegetarian')) {
+      const currentCount = filterCounts.get('Vegetarian') || 0;
+      filterCounts.set('Vegetarian', currentCount + 1);
+    }
+    if (item.labels.includes('Vegan')) {
+      const currentCount = filterCounts.get('Vegan') || 0;
+      filterCounts.set('Vegan', currentCount + 1);
+    }
+    if (item.labels.includes('Non-Vegetarian')) {
+      const currentCount = filterCounts.get('Non-Vegetarian') || 0;
+      filterCounts.set('Non-Vegetarian', currentCount + 1);
+    }
+    if (item.labels.includes('Eggetarian')) {
+      const currentCount = filterCounts.get('Eggetarian') || 0;
+      filterCounts.set('Eggetarian', currentCount + 1);
+    }
+  }
 }
 
 // Helper to format filter labels
@@ -59,6 +80,14 @@ function formatFilterLabel(value: string): string {
       return "Chef's Pick";
     case 'Discount':
       return 'On Discount';
+    case 'Vegetarian':
+      return 'Vegetarian';
+    case 'Vegan':
+      return 'Vegan';
+    case 'Non-Vegetarian':
+      return 'Non-Vegetarian';
+    case 'Eggetarian':
+      return 'Eggetarian';
     default:
       return value;
   }
@@ -102,12 +131,51 @@ export function filterItems(
       ? item.originalPrice !== undefined
       : false;
 
-    // Check for label matches
-    const hasMatchingLabel = item.labels
-      ? item.labels.some((label) => selectedFilters.includes(label))
+    // Check for dietary filters
+    const hasDietaryFilter = selectedFilters.some((filter) =>
+      ['Vegetarian', 'Vegan', 'Non-Vegetarian', 'Eggetarian'].includes(filter)
+    );
+
+    const matchesDietaryFilter =
+      !hasDietaryFilter ||
+      (item.labels
+        ? item.labels.some(
+            (label) =>
+              ['Vegetarian', 'Vegan', 'Non-Vegetarian', 'Eggetarian'].includes(
+                label
+              ) && selectedFilters.includes(label)
+          )
+        : false);
+
+    // Check for other label matches
+    const hasOtherFilterMatch = item.labels
+      ? item.labels.some(
+          (label) =>
+            !['Vegetarian', 'Vegan', 'Non-Vegetarian', 'Eggetarian'].includes(
+              label
+            ) && selectedFilters.includes(label)
+        )
       : false;
 
-    return isDiscounted || hasMatchingLabel;
+    // Determine if an item should be shown based on all filter types
+    if (hasDietaryFilter) {
+      return (
+        matchesDietaryFilter &&
+        (isDiscounted ||
+          hasOtherFilterMatch ||
+          !selectedFilters.some(
+            (filter) =>
+              filter !== 'Vegetarian' &&
+              filter !== 'Vegan' &&
+              filter !== 'Non-Vegetarian' &&
+              filter !== 'Eggetarian' &&
+              filter !== 'Discount'
+          ))
+      );
+    }
+
+    // For non-dietary filters
+    return isDiscounted || hasOtherFilterMatch;
   });
 }
 

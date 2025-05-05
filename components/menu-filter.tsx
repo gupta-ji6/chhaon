@@ -77,7 +77,13 @@ export function MenuFilter({
             case "Spicy":
                 return "bg-red-800 text-red-50 hover:bg-red-700"
             case "Vegan":
+                return "bg-teal-600 text-teal-50 hover:bg-teal-500"
+            case "Vegetarian":
                 return "bg-green-700 text-green-50 hover:bg-green-600"
+            case "Non-Vegetarian":
+                return "bg-red-700 text-red-50 hover:bg-red-600"
+            case "Eggetarian":
+                return "bg-amber-600 text-amber-50 hover:bg-amber-500"
             case "Discount":
                 return "bg-green-800 text-green-50 hover:bg-green-700"
             default:

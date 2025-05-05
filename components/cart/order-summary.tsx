@@ -1,7 +1,7 @@
 "use client"
 
 import type { CartItem } from "@/lib/cart-context"
-import { CheckCircle } from "lucide-react"
+import { CheckCircle, Leaf, Egg, Drumstick, ChefHat, Flame, MinusCircle } from "lucide-react"
 import NumberFlow, { NumberFlowGroup } from "@number-flow/react"
 import { motion } from "framer-motion"
 
@@ -74,11 +74,40 @@ export function OrderSummary({ items, totalPrice, totalSavings = 0 }: OrderSumma
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.6 + index * 0.1 }}
             >
-              <span>
-                <NumberFlow value={item.quantity} /> × {item.name}
-                {item.originalPrice && (
-                  <span className="text-xs text-green-600 ml-1 font-medium">
-                    ({Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}% off)
+              <span className="flex items-center gap-1.5">
+                {/* Dietary type indicators before the name */}
+                {item.labels && (
+                  <span className="flex gap-0.5 mr-1">
+                    {item.labels.includes("Non-Vegetarian") && (
+                      <Drumstick className="h-3 w-3 text-red-700" strokeWidth={2.5} />
+                    )}
+                    {item.labels.includes("Eggetarian") && (
+                      <Egg className="h-3 w-3 text-amber-600" strokeWidth={2.5} />
+                    )}
+                    {item.labels.includes("Vegan") && (
+                      <Leaf className="h-3 w-3 text-teal-600" strokeWidth={2.5} />
+                    )}
+                  </span>
+                )}
+
+                <span>
+                  <NumberFlow value={item.quantity} /> × {item.name}
+                  {item.originalPrice && (
+                    <span className="text-xs text-green-600 ml-1 font-medium">
+                      ({Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}% off)
+                    </span>
+                  )}
+                </span>
+
+                {/* Special labels after the name */}
+                {item.labels && (
+                  <span className="flex gap-0.5 ml-1">
+                    {item.labels.includes("Chef's Recommended") && (
+                      <ChefHat className="h-3 w-3 text-amber-900" strokeWidth={2.5} />
+                    )}
+                    {item.labels.includes("Spicy") && (
+                      <Flame className="h-3 w-3 text-red-800" strokeWidth={2.5} />
+                    )}
                   </span>
                 )}
               </span>

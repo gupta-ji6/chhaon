@@ -1,6 +1,6 @@
 "use client"
 
-import { X, Minus, Plus, ShoppingBag, ArrowLeft, Layers, List } from "lucide-react"
+import { X, Minus, Plus, ShoppingBag, ArrowLeft, Layers, List, ChefHat, Flame, MinusCircle } from "lucide-react"
 import { useCart } from "@/lib/cart-context"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
@@ -14,6 +14,7 @@ import { motion } from "framer-motion"
 import { Toggle } from "@/components/ui/toggle"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import type { CartItem } from "@/lib/cart-context"
+import { Leaf, Egg, Drumstick } from "lucide-react"
 
 export function CartSidebar() {
   const { items, isCartOpen, setIsCartOpen, updateQuantity, removeItem, totalPrice, totalSavings, clearCart } = useCart()
@@ -94,7 +95,40 @@ export function CartSidebar() {
       transition={{ type: "spring", stiffness: 500, damping: 30 }}
     >
       <div className="flex-1 pr-4">
-        <h4 className="font-display text-base font-medium">{item.name}</h4>
+        <div className="flex items-center gap-1.5">
+          {/* Dietary type indicators - before the name */}
+          {item.labels && (
+            <div className="flex gap-0.5 mr-1">
+              {/* Only show non-veg, egg, and vegan indicators */}
+              {item.labels.includes("Non-Vegetarian") && (
+                <Drumstick className="h-3.5 w-3.5 text-red-700" strokeWidth={2.5} />
+              )}
+              {item.labels.includes("Eggetarian") && (
+                <Egg className="h-3.5 w-3.5 text-amber-600" strokeWidth={2.5} />
+              )}
+              {item.labels.includes("Vegan") && (
+                <Leaf className="h-3.5 w-3.5 text-teal-600" strokeWidth={2.5} />
+              )}
+            </div>
+          )}
+
+          <h4 className="font-display text-base font-medium">{item.name}</h4>
+
+          {/* Special labels - after the name */}
+          {item.labels && (
+            <div className="flex gap-0.5 ml-1">
+              {item.labels.includes("Chef's Recommended") && (
+                <ChefHat className="h-3.5 w-3.5 text-amber-900" strokeWidth={2.5} />
+              )}
+              {item.labels.includes("Spicy") && (
+                <Flame className="h-3.5 w-3.5 text-red-800" strokeWidth={2.5} />
+              )}
+              {item.originalPrice && (
+                <MinusCircle className="h-3.5 w-3.5 text-green-800" strokeWidth={2.5} />
+              )}
+            </div>
+          )}
+        </div>
         <p className="text-sm text-muted-foreground line-clamp-1">{item.description}</p>
         <NumberFlowGroup>
           <div className="flex items-baseline gap-1 mt-1">

@@ -6,7 +6,7 @@ import { AddToCartButton } from "@/components/cart/add-to-cart-button"
 import { Badge } from "@/components/ui/badge"
 import { motion, Variants, AnimatePresence } from "framer-motion"
 import { useCart } from "@/lib/cart-context"
-import { Heart, MinusCircle, ChefHat, Flame, Leaf } from "lucide-react"
+import { Heart, MinusCircle, ChefHat, Flame, Leaf, Egg, Drumstick } from "lucide-react"
 import { MenuFilter, FilterOption } from "@/components/menu-filter"
 import { extractUniqueFilters, filterItems, filterSubcategories } from "@/lib/filter-utils"
 
@@ -93,7 +93,30 @@ function MenuItemCard({ item }: MenuItemProps) {
       </AnimatePresence>
       <div className="flex justify-between items-baseline mb-2 relative z-10">
         <div className="flex items-center gap-2">
+          {/* Dietary icons - before the dish name */}
+          {item.labels && (
+            <div className="flex gap-1">
+              {item.labels.includes("Non-Vegetarian") && (
+                <div className="inline-flex items-center rounded-full w-5 h-5 justify-center bg-red-700">
+                  <Drumstick className="w-3 h-3 text-white" />
+                </div>
+              )}
+              {item.labels.includes("Eggetarian") && (
+                <div className="inline-flex items-center rounded-full w-5 h-5 justify-center bg-amber-600">
+                  <Egg className="w-3 h-3 text-white" />
+                </div>
+              )}
+              {item.labels.includes("Vegan") && (
+                <div className="inline-flex items-center rounded-full w-5 h-5 justify-center bg-teal-600">
+                  <Leaf className="w-3 h-3 text-white" />
+                </div>
+              )}
+            </div>
+          )}
+
           <h3 className="font-display text-xl text-stone-800 dark:text-stone-100 font-medium">{item.name}</h3>
+
+          {/* Special labels - after the dish name */}
           {(item.labels && item.labels.length > 0) || item.originalPrice ? (
             <div className="flex flex-wrap gap-2 ml-1">
               {item.labels?.includes("Chef's Recommended") && (
@@ -114,12 +137,6 @@ function MenuItemCard({ item }: MenuItemProps) {
                 <div className="inline-flex items-center rounded-full px-3 py-0.5 text-xs font-medium bg-red-800 text-red-50 shimmer-badge">
                   <Flame className="w-3 h-3 mr-1" />
                   Spicy
-                </div>
-              )}
-              {item.labels?.includes("Vegan") && (
-                <div className="inline-flex items-center rounded-full px-3 py-0.5 text-xs font-medium bg-green-700 text-green-50 shimmer-badge">
-                  <Leaf className="w-3 h-3 mr-1" />
-                  Vegan
                 </div>
               )}
             </div>
@@ -316,16 +333,45 @@ export function MenuSection({ title, category, globalFilters = [] }: MenuSection
   const renderCategoryFilters = () => {
     if (availableFilters.length === 0) return null;
 
+    // Group dietary filters separately
+    const dietaryFilters = availableFilters.filter(filter =>
+      ["Vegetarian", "Vegan", "Non-Vegetarian", "Eggetarian"].includes(filter.value)
+    );
+
+    const otherFilters = availableFilters.filter(filter =>
+      !["Vegetarian", "Vegan", "Non-Vegetarian", "Eggetarian"].includes(filter.value)
+    );
+
     return (
       <div className="mb-6 p-3 bg-stone-50/80 dark:bg-stone-800/30 rounded-lg border border-stone-200 dark:border-stone-700/50">
-        <MenuFilter
-          filters={availableFilters}
-          selectedFilters={selectedFilters}
-          onFilterChange={handleFilterChange}
-          className="max-w-full"
-          isGlobal={false}
-          globalFilters={globalFilters}
-        />
+        {/* Render dietary filters first if available */}
+        {dietaryFilters.length > 0 && (
+          <div className="mb-3 border-b border-stone-200 dark:border-stone-700 pb-3">
+            <div className="text-sm font-medium text-stone-600 dark:text-stone-300 mb-2">
+              Dietary preferences:
+            </div>
+            <MenuFilter
+              filters={dietaryFilters}
+              selectedFilters={selectedFilters}
+              onFilterChange={handleFilterChange}
+              className="max-w-full"
+              isGlobal={false}
+              globalFilters={globalFilters}
+            />
+          </div>
+        )}
+
+        {/* Other filters */}
+        {otherFilters.length > 0 && (
+          <MenuFilter
+            filters={otherFilters}
+            selectedFilters={selectedFilters}
+            onFilterChange={handleFilterChange}
+            className="max-w-full"
+            isGlobal={false}
+            globalFilters={globalFilters}
+          />
+        )}
       </div>
     );
   };
