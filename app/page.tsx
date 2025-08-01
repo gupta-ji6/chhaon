@@ -136,13 +136,14 @@ export default function Home() {
     <main className="min-h-screen bg-white dark:bg-stone-900 transition-colors duration-300">
       {/* Hero Section */}
       <div className="relative h-[40vh] md:h-[50vh] w-full">
-        <Image
+        {/* <Image
           src="/images/mountain-cafe.jpg"
           alt="Chhaon Rooftop Cafe"
           fill
           priority
           className="object-cover brightness-[0.85] dark:brightness-[0.7]"
-        />
+        /> */}
+        <div className="absolute inset-0 bg-black/40 dark:bg-black/60" />
         <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-4 text-center">
           <h1 className="font-display text-4xl md:text-6xl font-bold mb-2 tracking-wide">Chhaon</h1>
           <p className="font-body text-xl md:text-2xl italic">Rooftop Cafe & Restaurant</p>
